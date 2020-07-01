@@ -36,6 +36,7 @@ files_schema = FileSchema(many=True)
 
 
 
+
 @app.route("/file/add", methods=["POST"])
 def add_file():
     name = request.form.get("name")
@@ -60,6 +61,13 @@ def get_file(id):
     return send_file(io.BytesIO(file_data.data), 
             attachment_filename=file_data.name, 
             mimetype=file_data.file_type)
+
+@app.route("/file/delete/<id>", methods=(["DELETE"]))   
+def delete_file(id):
+    file_data = db.session.query(File).filter(File.id).first()
+    db.session.delete(file_data)
+    db.session.commit()
+    return jsonify("File Deleted Succesfully")       
 
 if __name__ == "__main__":
     app.run(debug=True)
