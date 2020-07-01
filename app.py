@@ -64,7 +64,7 @@ def get_file(id):
 
 @app.route("/file/delete/<id>", methods=(["DELETE"]))   
 def delete_file(id):
-    file_data = db.session.query(File).filter(File.id).first()
+    file_data = db.session.query(File).filter(File.id == id).first()
     db.session.delete(file_data)
     db.session.commit()
     return jsonify("File Deleted Succesfully")       
